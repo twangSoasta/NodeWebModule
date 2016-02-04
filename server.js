@@ -12,9 +12,21 @@ var server = http.createServer(function(req,res){
 	
 	var resData = "Have a nice year of Monkey!";
 	var pathname = url.parse(req.url).pathname;
+	var postData = "";
 	console.log("See an incoming request message",req.url,"Pathname: ",pathname,req.method);
 	
-	callback(handle,pathname,res);  //pass handle into the callback function which is route()
+	req.setEncoding('utf-8');
+	
+	req.addListener("data",function(postDataChunk){     // monitoring the incoming request POST data chunks
+		postData += postDataChunk;
+		console.log("Received POST data chunk ",postDataChunk,".");
+	});
+	
+	req.addListener("end",function(){
+		callback(handle,pathname,res,postData);  //only execute when end 
+	});
+	
+//	callback(handle,pathname,res);  //pass handle into the callback function which is route()
 	                            // send to router to determine who should handle the response then produce the final results based on the handler' meta result								
 /*	res.writeHead(200, resHeader);   //not handle here anymore but in the requestHandler
 	res.write(resData);
