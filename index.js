@@ -7,5 +7,7 @@ handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload; // the rest will be undefined 
 handle["/getform"] = requestHandlers.getform; 
+handle["/show"] = requestHandlers.show;
+handle["/uploadfile"] = requestHandlers.uploadfile;
 
 server.startMyHttpServer("127.0.0.1",8889,router.route,handle);

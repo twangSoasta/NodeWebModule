@@ -4,13 +4,14 @@ function start(host,port,callback,handle){
 //var host = "127.0.0.1";
 //var port = 8888;
 var server = http.createServer(function(req,res){
-	var resHeader = {
+/*	var resHeader = {
 		"Content-Type": "text/plain",
 		"accepted-encoding":"gzip,deflate",
 		"set-cookies":"twang"
 		};
 	
 	var resData = "Have a nice year of Monkey!";
+	*/
 	var pathname = url.parse(req.url).pathname;
 	var postData = "";
 	console.log("See an incoming request message",req.url,"Pathname: ",pathname,req.method);
@@ -19,11 +20,13 @@ var server = http.createServer(function(req,res){
 	
 	req.addListener("data",function(postDataChunk){     // monitoring the incoming request POST data chunks
 		postData += postDataChunk;
-		console.log("Received POST data chunk ",postDataChunk,".");
+		console.log("PostData type is: "+typeof(postData));
+//		console.log("Received POST data chunk ",postDataChunk,".");
 	});
 	
 	req.addListener("end",function(){
-		callback(handle,pathname,res,postData);  //only execute when end 
+		console.log("request listener ended!");
+		callback(handle,pathname,res,postData,req);  //only execute when end, add  req
 	});
 	
 //	callback(handle,pathname,res);  //pass handle into the callback function which is route()
